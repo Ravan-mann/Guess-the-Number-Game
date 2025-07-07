@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Number Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input {
+      padding: 8px;
+      margin: 10px 0;
+      width: 200px;
+    }
+    button {
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Guess the Number Game</h1>
+  
+  <label for="guessInput">Enter a number between 1 and 100:</label><br>
+  <input type="number" id="guessInput" min="1" max="100"><br>
+  <button onclick="checkGuess()">Submit Guess</button>
+
+  <p id="message"></p>
+
+  <script>
+    const min = 1;
+    const max = 100;
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    let attempts = 0;
+
+    function checkGuess() {
+      const input = document.getElementById('guessInput');
+      const message = document.getElementById('message');
+      const guess = parseInt(input.value, 10);
+      attempts++;
+
+      if (isNaN(guess)) {
+        message.textContent = "⚠️ Please enter a valid number.";
+        message.style.color = "red";
+      } else if (guess < min || guess > max) {
+        message.textContent = `⚠️ Number must be between ${min} and ${max}.`;
+        message.style.color = "red";
+      } else if (guess < randomNumber) {
+        message.textContent = "Too low! Try again.";
+        message.style.color = "orange";
+      } else if (guess > randomNumber) {
+        message.textContent = "Too high! Try again.";
+        message.style.color = "orange";
+      } else {
+        message.textContent = `🎉 Congratulations! You guessed the number ${randomNumber} in ${attempts} attempts.`;
+        message.style.color = "green";
+        document.getElementById('guessInput').disabled = true;
+      }
+
+      input.value = "";
+      input.focus();
+    }
+  </script>
+
+</body>
+</html>
